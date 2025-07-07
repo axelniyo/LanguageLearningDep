@@ -1,5 +1,5 @@
 // API service for connecting to Node.js backend with XAMPP MariaDB
-const BASE_URL = 'http://localhost:3001/api';
+const BASE_URL = 'https://languagelearningdep.onrender.com/';
 
 interface Language {
   id: string;
@@ -147,7 +147,7 @@ export const api = {
   // Mark a lesson as completed for a user
   markLessonCompleted: async (lessonId: string, userId: string): Promise<{ success: boolean }> => {
     try {
-      const response = await fetch('http://localhost:3001/api/lessons/progress', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/lessons/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lessonId, userId }),
