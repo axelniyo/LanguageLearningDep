@@ -45,7 +45,7 @@ export function UnitManager() {
   const fetchCoursesAndUnits = async () => {
     try {
       // First fetch courses
-      const coursesResponse = await fetch('http://localhost:3001/api/courses');
+      const coursesResponse = await fetch('https://languagelearningdep.onrender.com/api/courses');
       if (!coursesResponse.ok) throw new Error('Failed to fetch courses');
       const coursesData = await coursesResponse.json();
       setCourses(coursesData);
@@ -54,7 +54,7 @@ export function UnitManager() {
       const allUnits: Unit[] = [];
       for (const course of coursesData) {
         try {
-          const unitsResponse = await fetch(`http://localhost:3001/api/courses/${course.id}/units`);
+          const unitsResponse = await fetch(`https://languagelearningdep.onrender.com/api/courses/${course.id}/units`);
           if (unitsResponse.ok) {
             const courseUnits = await unitsResponse.json();
             // Flatten the units from the nested structure
@@ -93,7 +93,7 @@ export function UnitManager() {
     setAdding(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/units', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/units', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
