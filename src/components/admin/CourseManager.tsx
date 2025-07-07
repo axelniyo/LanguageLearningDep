@@ -55,7 +55,7 @@ export function CourseManager() {
   const addCourseMutation = useMutation({
     mutationFn: async (course: NewCourse) => {
       console.log('Frontend: Sending course data:', course);
-      const response = await fetch('http://localhost:3001/api/courses', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/courses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(course),
