@@ -54,7 +54,7 @@ interface Exercise {
   explanation?: string;
 }
 
-const BASE_URL = 'http://localhost:3001/api';
+const BASE_URL = 'https://languagelearningdep.onrender.com/';
 
 // Utility functions for lesson styling
 const getLessonColor = (lessonType: string) => {
@@ -279,7 +279,7 @@ export function LessonView() {
     if (!user || !lessonId) return;
     try {
       // Query user_progress for this lesson — use the NEW endpoint
-      const res = await fetch(`http://localhost:3001/api/lessons/progress/lesson/${user.id}/${lessonId}`);
+      const res = await fetch(`https://languagelearningdep.onrender.com/api/lessons/progress/lesson/${user.id}/${lessonId}`);
       if (res.ok) {
         const d = await res.json();
         setCompleted(Boolean(d.completed));
