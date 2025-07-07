@@ -72,7 +72,7 @@ export function CourseLearning() {
       const completedLessonsMap: Record<string, boolean> = {};
       for (const lesson of allLessons) {
         try {
-          const res = await fetch(`http://localhost:3001/api/lessons/progress/lesson/${user.id}/${lesson.id}`);
+          const res = await fetch(`https://languagelearningdep.onrender.com/lessons/progress/lesson/${user.id}/${lesson.id}`);
           if (res.ok) {
             const d = await res.json();
             if (d.completed) completedLessonsMap[lesson.id] = true;
