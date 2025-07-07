@@ -46,7 +46,7 @@ export function ExercisesManager() {
 
   const fetchExercises = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/exercises');
+      const response = await fetch('https://languagelearningdep.onrender.com/api/exercises');
       if (!response.ok) throw new Error('Failed to fetch exercises');
       const data = await response.json();
       setExercises(data);
@@ -67,7 +67,7 @@ export function ExercisesManager() {
     setAdding(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/exercises', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/exercises', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
