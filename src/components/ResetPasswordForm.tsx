@@ -51,10 +51,10 @@ export function ResetPasswordForm() {
     setLoading(true);
 
     try {
-      console.log('Making reset password request to:', 'http://localhost:3001/api/auth/reset-password');
+      console.log('Making reset password request to:', 'https://languagelearningdep.onrender.com/api/auth/reset-password');
       console.log('With token:', token.substring(0, 10) + '...');
       
-      const response = await fetch('http://localhost:3001/api/auth/reset-password', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
