@@ -33,7 +33,7 @@ npm run dev
 npm start
 ```
 
-The API will run on: **http://localhost:3001**
+The API will run on: **(https://languagelearningdep.onrender.com/)**
 
 ## 📡 API Endpoints
 
@@ -73,7 +73,7 @@ server/
 ## 🔌 Connecting to React Frontend
 
 Your React app will make API calls to:
-- Base URL: `http://localhost:3001/api`
+- Base URL: `[http://localhost:3001](https://languagelearningdep.onrender.com/)/api`
 - The `src/services/api.ts` file is already configured to use this API
 
 ## 🐛 Troubleshooting
