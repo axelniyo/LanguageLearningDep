@@ -15,7 +15,7 @@ const authRouter = require('./routes/auth');
 // Middleware
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
+    process.env.FRONTEND_URL || 'https://languagelearningdep-2.onrender.com/',
     'http://localhost:8080',
     'http://localhost:3000',
     'http://localhost:4173'
