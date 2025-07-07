@@ -36,7 +36,7 @@ export function LanguageManager() {
 
   const addLanguageMutation = useMutation({
     mutationFn: async (language: NewLanguage) => {
-      const response = await fetch('http://localhost:3001/api/languages', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/languages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(language),
