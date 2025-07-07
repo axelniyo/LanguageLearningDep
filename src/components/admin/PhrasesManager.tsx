@@ -42,7 +42,7 @@ export function PhrasesManager() {
 
   const fetchPhrases = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/phrases');
+      const response = await fetch('https://languagelearningdep.onrender.com/api/phrases');
       if (!response.ok) throw new Error('Failed to fetch phrases');
       const data = await response.json();
       setPhrases(data);
@@ -63,7 +63,7 @@ export function PhrasesManager() {
     setAdding(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/phrases', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/phrases', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
