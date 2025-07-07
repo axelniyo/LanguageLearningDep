@@ -12,7 +12,7 @@ export default function LessonProgressDebugger() {
     setLoading(true);
     setResult(null);
     try {
-      const response = await fetch("http://localhost:3001/api/lessons/progress", {
+      const response = await fetch("https://languagelearningdep.onrender.com/lessons/progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, lessonId }),
