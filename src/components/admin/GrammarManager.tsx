@@ -40,7 +40,7 @@ export function GrammarManager() {
 
   const fetchGrammarRules = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/grammar');
+      const response = await fetch('https://languagelearningdep.onrender.com/api/grammar');
       if (!response.ok) throw new Error('Failed to fetch grammar rules');
       const data = await response.json();
       setGrammarRules(data);
@@ -61,7 +61,7 @@ export function GrammarManager() {
     setAdding(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/grammar', {
+      const response = await fetch('https://languagelearningdep.onrender.com//api/grammar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
