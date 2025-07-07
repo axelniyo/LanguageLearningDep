@@ -46,7 +46,7 @@ export function VocabularyManager() {
 
   const fetchVocabulary = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/vocabulary');
+      const response = await fetch('https://languagelearningdep.onrender.com/api/vocabulary');
       if (!response.ok) throw new Error('Failed to fetch vocabulary');
       const data = await response.json();
       setVocabulary(data);
@@ -67,7 +67,7 @@ export function VocabularyManager() {
     setAdding(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/vocabulary', {
+      const response = await fetch('https://languagelearningdep.onrender.com/api/vocabulary', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
