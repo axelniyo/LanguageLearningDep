@@ -22,33 +22,55 @@ function App() {
   const [error, setError] = useState(null);
 
   // Fetch data once with proper API endpoints
- useEffect(() => {
+useEffect(() => {
   if (!isDataFetched) {
     isDataFetched = true;
     setLoading(true);
+    setError(null); // Reset errors on retry
     
-    // Use explicit URLs with your domain
     const API_BASE = 'https://languagelearningdep.onrender.com';
-    
+    const cacheBuster = `?t=${Date.now()}`; // Prevents caching issues
+
     Promise.all([
-      fetch(`${API_BASE}/api/languages`).then(res => {
-        if (!res.ok) throw new Error('Languages fetch failed');
-        return res.json();
+      fetch(`${API_BASE}/api/languages${cacheBuster}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || 'Languages fetch failed');
+        }
+        return data;
       }),
-      fetch(`${API_BASE}/api/courses`).then(res => {
-        if (!res.ok) throw new Error('Courses fetch failed');
-        return res.json();
+      fetch(`${API_BASE}/api/courses${cacheBuster}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || 'Courses fetch failed');
+        }
+        return data;
       })
     ])
     .then(([langData, courseData]) => {
+      console.log('API Response - Languages:', langData); // Debug log
+      console.log('API Response - Courses:', courseData); // Debug log
       setLanguages(langData);
       setCourses(courseData);
     })
     .catch(error => {
-      console.error('Fetch error:', error);
-      // Optional: Show error to user
+      console.error('API Error:', error);
+      setError(error.message);
+      isDataFetched = false; // Allow retry
     })
-    .finally(() => setLoading(false));
+    .finally(() => {
+      setLoading(false);
+    });
   }
 }, []);
 
