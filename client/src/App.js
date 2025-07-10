@@ -22,33 +22,35 @@ function App() {
   const [error, setError] = useState(null);
 
   // Fetch data once with proper API endpoints
-  useEffect(() => {
-    if (!isDataFetched) {
-      isDataFetched = true;
-      setLoading(true);
-      setError(null);
-      
-      Promise.all([
-        fetch('/api/languages').then(res => {
-          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-          return res.json();
-        }),
-        fetch('/api/courses').then(res => {
-          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-          return res.json();
-        })
-      ])
-      .then(([langData, courseData]) => {
-        setLanguages(langData);
-        setCourses(courseData);
+ useEffect(() => {
+  if (!isDataFetched) {
+    isDataFetched = true;
+    setLoading(true);
+    
+    // Use explicit URLs with your domain
+    const API_BASE = 'https://languagelearningdep.onrender.com';
+    
+    Promise.all([
+      fetch(`${API_BASE}/api/languages`).then(res => {
+        if (!res.ok) throw new Error('Languages fetch failed');
+        return res.json();
+      }),
+      fetch(`${API_BASE}/api/courses`).then(res => {
+        if (!res.ok) throw new Error('Courses fetch failed');
+        return res.json();
       })
-      .catch(err => {
-        console.error('Fetch error:', err);
-        setError(err.message);
-      })
-      .finally(() => setLoading(false));
-    }
-  }, []);
+    ])
+    .then(([langData, courseData]) => {
+      setLanguages(langData);
+      setCourses(courseData);
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+      // Optional: Show error to user
+    })
+    .finally(() => setLoading(false));
+  }
+}, []);
 
   return (
     <Router>
