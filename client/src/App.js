@@ -1,3 +1,20 @@
+
+let isDataFetched = false; // Global flag
+
+function App() {
+  const [languages, setLanguages] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    if (!isDataFetched) { // Only fetch if not already done
+      isDataFetched = true;
+      fetch('/languages').then(res => res.json()).then(setLanguages);
+      fetch('/courses').then(res => res.json()).then(setCourses);
+    }
+  }, []);
+
+  // ... (rest of your code)
+}
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Container, CssBaseline, Drawer, List, ListItem, ListItemText, Toolbar, AppBar, Typography, Box } from '@mui/material';
