@@ -117,5 +117,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-const usersRouter = require('./routes/users');
-app.use('/api/users', usersRouter);
