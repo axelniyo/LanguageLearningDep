@@ -54,7 +54,7 @@ interface Exercise {
   explanation?: string;
 }
 
-const BASE_URL = 'https://languagelearningdep.onrender.com/';
+const BASE_URL = 'https://languagelearningdep.onrender.com/api';
 
 // Utility functions for lesson styling
 const getLessonColor = (lessonType: string) => {
