@@ -29,13 +29,6 @@ export function CourseHeader({ course, courseId, onBack }: CourseHeaderProps) {
         </div>
       </div>
 
-      {/* Quick Start Info */}
-      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h3 className="font-semibold text-blue-800 mb-2">🚀 Quick Start Mode - XAMPP Ready!</h3>
-        <p className="text-sm text-blue-700">Course ID: {courseId}</p>
-        <p className="text-sm text-blue-700">Course Name: {course.name}</p>
-        <p className="text-xs text-blue-600 mt-2">✅ Using mock API - ready to connect to your XAMPP backend!</p>
-      </div>
     </div>
   );
 }
