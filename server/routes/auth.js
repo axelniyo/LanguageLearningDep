@@ -15,28 +15,23 @@ let emailTransporter = null;
 const createEmailTransporter = async () => {
   if (!emailTransporter) {
     try {
-      // Create test account for development
-      console.log('Creating test email account...');
-      const testAccount = await nodemailer.createTestAccount();
-      
       emailTransporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false,
+        service: 'Gmail', // or use host, port for other providers
         auth: {
-          user: testAccount.user,
-          pass: testAccount.pass,
-        },
+          user: process.env.EMAIL_USERNAME, // your Gmail/SMTP username
+          pass: process.env.EMAIL_PASSWORD  // your Gmail App Password or SMTP password
+        }
       });
-      
-      console.log('📧 Email transporter created with test account:', testAccount.user);
+
+      console.log('✅ Real email transporter created');
     } catch (error) {
-      console.error('Error creating email transporter:', error);
+      console.error('Error creating real email transporter:', error);
       throw error;
     }
   }
   return emailTransporter;
 };
+
 
 // Helper function to generate JWT token
 const generateToken = (user) => {
@@ -272,7 +267,7 @@ router.post('/forgot-password', async (req, res) => {
     });
 
        // Create reset URL with the correct frontend URL
-    const resetUrl = `http://localhost:8080/reset-password?token=${resetToken}`;
+    const resetUrl = `https://languagelearningdep-2.onrender.com/reset-password?token=${resetToken}`;
     console.log('🔗 Reset URL created:', resetUrl);
 
     // Send email
