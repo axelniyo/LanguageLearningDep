@@ -1,5 +1,5 @@
 // API service for connecting to Node.js backend with XAMPP MariaDB
-const BASE_URL = 'https://languagelearningdep.onrender.com/';
+const BASE_URL = 'https://languagelearningdep.onrender.com/api';
 
 interface Language {
   id: string;
