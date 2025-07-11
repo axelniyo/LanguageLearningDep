@@ -14,7 +14,7 @@ export interface AuthResponse {
   error?: string;
 }
 
-const API_BASE_URL = 'https://languagelearningdep.onrender.com/api';
+const API_BASE_URL = 'https://languagelearningdep.onrender.com/';
 
 class AuthService {
   async signUp(email: string, password: string, username: string): Promise<AuthResponse> {
