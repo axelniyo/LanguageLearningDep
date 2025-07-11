@@ -271,9 +271,8 @@ router.post('/forgot-password', async (req, res) => {
       );
     });
 
-    // ====== Edited Section: Use ENV variable for frontend URL =======
-    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8080';
-    const resetUrl = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
+       // Create reset URL with the correct frontend URL
+    const resetUrl = `http://localhost:8080/reset-password?token=${resetToken}`;
     console.log('🔗 Reset URL created:', resetUrl);
 
     // Send email
