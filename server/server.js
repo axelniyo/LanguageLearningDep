@@ -12,13 +12,14 @@ const unitsRouter = require('./routes/units');
 const lessonsRouter = require('./routes/lessons');
 const authRouter = require('./routes/auth');
 
-// Middleware
 app.use(cors({
   origin: [
-  'https://languagelearningdep-2.onrender.com', // Your frontend URL
-    'http://localhost:5173', // Vite default
-    'http://localhost:3000' 
-  ],
+    'https://languagelearningdep-2.onrender.com', // Render subdomain
+    'https://wmicsports.com',                      // Your new custom domain
+    'http://localhost:5173',                       // Vite default
+    'http://localhost:3000'                        // Localhost
+  ]
+}));
   credentials: true
 }));
 
