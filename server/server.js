@@ -6,15 +6,15 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Serve static files (React app)
-app.use(express.static(path.join(__dirname, 'dist'))); // Or 'build' if that's your build folder
+// Serve static files from React build (Vite's default is 'dist')
+app.use(express.static(path.join(__dirname, 'dist'))); // Change to 'build' if needed
 
 app.use(cors({
   origin: [
-    'https://languagelearningdep-2.onrender.com',
-    'https://wmicsports.com',
-    'http://localhost:5173',
-    'http://localhost:3000'
+    'https://languagelearningdep-2.onrender.com', // Render subdomain
+    'https://wmicsports.com',                      // Your custom domain
+    'http://localhost:5173',                       // Vite default
+    'http://localhost:3000'                        // Localhost
   ],
   credentials: true
 }));
@@ -30,8 +30,8 @@ app.use((req, res, next) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'Language Learning API is running!',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
@@ -49,7 +49,7 @@ app.use('/api/grammar', require('./routes/grammar'));
 app.use('/api/phrases', require('./routes/phrases'));
 app.use('/api/exercises', require('./routes/exercises'));
 
-// Root endpoint
+// Root endpoint (optional, could be replaced by SPA)
 app.get('/', (req, res) => {
   res.json({
     message: '🚀 Language Learning API - XAMPP Ready!',
@@ -71,37 +71,38 @@ app.get('/', (req, res) => {
   });
 });
 
-// Serve React app for all non-API/non-health routes (client-side routing)
+// ---- CLIENT-SIDE ROUTING FIX ----
+// Serve index.html for any non-API, non-health route (for React Router refreshes)
 app.get('*', (req, res, next) => {
   if (
     !req.originalUrl.startsWith('/api') &&
     !req.originalUrl.startsWith('/health')
   ) {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Or 'build' for CRA
+    res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Change to 'build' if needed
   } else {
     next();
   }
 });
 
-// 404 handler for API/health routes only
+// ---- 404 HANDLER FOR API/HEALTH ONLY ----
 app.use('*', (req, res) => {
-  res.status(404).json({ 
+  res.status(404).json({
     error: 'Endpoint not found',
     path: req.originalUrl,
     method: req.method
   });
 });
 
-// Error handler
+// ---- ERROR HANDLER ----
 app.use((err, req, res, next) => {
   console.error('Server Error:', err);
-  res.status(500).json({ 
+  res.status(500).json({
     error: 'Internal server error',
     message: err.message
   });
 });
 
-// Start server
+// ---- START SERVER ----
 app.listen(PORT, () => {
   console.log('🚀 ================================');
   console.log(`🚀 Language Learning API Server`);
