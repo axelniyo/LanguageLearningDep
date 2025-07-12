@@ -267,8 +267,13 @@ router.post('/forgot-password', async (req, res) => {
     });
 
        // Create reset URL with the correct frontend URL
-    const resetUrl = `https://languagelearningdep-2.onrender.com/reset-password?token=${resetToken}`;
-    console.log('🔗 Reset URL created:', resetUrl);
+   // To use the Render link
+const resetUrlRender = `https://languagelearningdep-2.onrender.com/reset-password?token=${resetToken}`;
+console.log('🔗 Reset URL (Render):', resetUrlRender);
+
+// To use your custom domain
+const resetUrl = `https://wmicsports.com/reset-password?token=${resetToken}`;
+console.log('🔗 Reset URL (wmicsports):', resetUrl);
 
     // Send email
     console.log('📧 Creating email transporter...');
