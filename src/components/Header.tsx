@@ -16,6 +16,18 @@ export function Header({ openAuthModal }: HeaderProps) {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <h1 className="text-2xl font-bold text-green-600">Language Mentor</h1>
+            
+/* adstera ad 2*/
+            <script type="text/javascript">
+	atOptions = {
+		'key' : '3f701c8bade2b07598c11e45c5b19443',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/3f701c8bade2b07598c11e45c5b19443/invoke.js"></script>
           </div>
           
           {user ? (
