@@ -18,8 +18,7 @@ app.use(cors({
     'https://wmicsports.com',                      // Your new custom domain
     'http://localhost:5173',                       // Vite default
     'http://localhost:3000'                        // Localhost
-  ]
-}));
+  ],
   credentials: true
 }));
 
