@@ -1,23 +1,20 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Import routes
-const languagesRouter = require('./routes/languages');
-const coursesRouter = require('./routes/courses');
-const unitsRouter = require('./routes/units');
-const lessonsRouter = require('./routes/lessons');
-const authRouter = require('./routes/auth');
+// Serve static files (React app)
+app.use(express.static(path.join(__dirname, 'dist'))); // Or 'build' if that's your build folder
 
 app.use(cors({
   origin: [
-    'https://languagelearningdep-2.onrender.com', // Render subdomain
-    'https://wmicsports.com',                      // Your new custom domain
-    'http://localhost:5173',                       // Vite default
-    'http://localhost:3000'                        // Localhost
+    'https://languagelearningdep-2.onrender.com',
+    'https://wmicsports.com',
+    'http://localhost:5173',
+    'http://localhost:3000'
   ],
   credentials: true
 }));
@@ -41,7 +38,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Auth routes
+// API routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/languages', require('./routes/languages'));
 app.use('/api/courses', require('./routes/courses'));
@@ -74,7 +71,19 @@ app.get('/', (req, res) => {
   });
 });
 
-// 404 handler
+// Serve React app for all non-API/non-health routes (client-side routing)
+app.get('*', (req, res, next) => {
+  if (
+    !req.originalUrl.startsWith('/api') &&
+    !req.originalUrl.startsWith('/health')
+  ) {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Or 'build' for CRA
+  } else {
+    next();
+  }
+});
+
+// 404 handler for API/health routes only
 app.use('*', (req, res) => {
   res.status(404).json({ 
     error: 'Endpoint not found',
