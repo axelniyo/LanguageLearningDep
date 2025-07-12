@@ -6,15 +6,16 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Serve static files from React build (Vite's default is 'dist')
-app.use(express.static(path.join(__dirname, 'dist'))); // Change to 'build' if needed
+// 1. Serve React static files (from 'dist' folder)
+app.use(express.static(path.join(__dirname, 'dist')));
 
+// 2. CORS config
 app.use(cors({
   origin: [
-    'https://languagelearningdep-2.onrender.com', // Render subdomain
-    'https://wmicsports.com',                      // Your custom domain
-    'http://localhost:5173',                       // Vite default
-    'http://localhost:3000'                        // Localhost
+    'https://languagelearningdep-2.onrender.com',
+    'https://wmicsports.com',
+    'http://localhost:5173',
+    'http://localhost:3000'
   ],
   credentials: true
 }));
@@ -71,20 +72,20 @@ app.get('/', (req, res) => {
   });
 });
 
-// ---- CLIENT-SIDE ROUTING FIX ----
-// Serve index.html for any non-API, non-health route (for React Router refreshes)
+// 3. Catch-all route: Serve index.html for non-API/non-health routes
 app.get('*', (req, res, next) => {
+  // Only serve index.html if NOT an API or health route
   if (
     !req.originalUrl.startsWith('/api') &&
     !req.originalUrl.startsWith('/health')
   ) {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Change to 'build' if needed
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   } else {
     next();
   }
 });
 
-// ---- 404 HANDLER FOR API/HEALTH ONLY ----
+// 4. 404 handler (for API/health only)
 app.use('*', (req, res) => {
   res.status(404).json({
     error: 'Endpoint not found',
@@ -93,7 +94,7 @@ app.use('*', (req, res) => {
   });
 });
 
-// ---- ERROR HANDLER ----
+// 5. Error handler
 app.use((err, req, res, next) => {
   console.error('Server Error:', err);
   res.status(500).json({
@@ -102,7 +103,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ---- START SERVER ----
+// 6. Start server
 app.listen(PORT, () => {
   console.log('🚀 ================================');
   console.log(`🚀 Language Learning API Server`);
