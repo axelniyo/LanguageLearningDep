@@ -1,3 +1,10 @@
+// Disable console logs
+console.log = () => {};
+console.error = () => {};
+console.warn = () => {};
+console.info = () => {};
+console.debug = () => {};
+
 // API service for connecting to Node.js backend with XAMPP MariaDB
 const BASE_URL = 'https://languagelearningdep.onrender.com/api';
 
