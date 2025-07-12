@@ -1,21 +1,23 @@
-const express = require('express');
+ const express = require('express');
 const cors = require('cors');
-const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// 1. Serve React static files (from 'dist' folder)
-app.use(express.static(path.join(__dirname, 'dist')));
+// Import routes
+const languagesRouter = require('./routes/languages');
+const coursesRouter = require('./routes/courses');
+const unitsRouter = require('./routes/units');
+const lessonsRouter = require('./routes/lessons');
+const authRouter = require('./routes/auth');
 
-// 2. CORS config
 app.use(cors({
   origin: [
-    'https://languagelearningdep-2.onrender.com',
-    'https://wmicsports.com',
-    'http://localhost:5173',
-    'http://localhost:3000'
+    'https://languagelearningdep-2.onrender.com', // Render subdomain
+    'https://wmicsports.com',                      // Your new custom domain
+    'http://localhost:5173',                       // Vite default
+    'http://localhost:3000'                        // Localhost
   ],
   credentials: true
 }));
@@ -31,15 +33,15 @@ app.use((req, res, next) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
+  res.json({ 
+    status: 'OK', 
     message: 'Language Learning API is running!',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
   });
 });
 
-// API routes
+// Auth routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/languages', require('./routes/languages'));
 app.use('/api/courses', require('./routes/courses'));
@@ -50,7 +52,7 @@ app.use('/api/grammar', require('./routes/grammar'));
 app.use('/api/phrases', require('./routes/phrases'));
 app.use('/api/exercises', require('./routes/exercises'));
 
-// Root endpoint (optional, could be replaced by SPA)
+// Root endpoint
 app.get('/', (req, res) => {
   res.json({
     message: '🚀 Language Learning API - XAMPP Ready!',
@@ -72,38 +74,25 @@ app.get('/', (req, res) => {
   });
 });
 
-// 3. Catch-all route: Serve index.html for non-API/non-health routes
-app.get('*', (req, res, next) => {
-  // Only serve index.html if NOT an API or health route
-  if (
-    !req.originalUrl.startsWith('/api') &&
-    !req.originalUrl.startsWith('/health')
-  ) {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  } else {
-    next();
-  }
-});
-
-// 4. 404 handler (for API/health only)
+// 404 handler
 app.use('*', (req, res) => {
-  res.status(404).json({
+  res.status(404).json({ 
     error: 'Endpoint not found',
     path: req.originalUrl,
     method: req.method
   });
 });
 
-// 5. Error handler
+// Error handler
 app.use((err, req, res, next) => {
   console.error('Server Error:', err);
-  res.status(500).json({
+  res.status(500).json({ 
     error: 'Internal server error',
     message: err.message
   });
 });
 
-// 6. Start server
+// Start server
 app.listen(PORT, () => {
   console.log('🚀 ================================');
   console.log(`🚀 Language Learning API Server`);
