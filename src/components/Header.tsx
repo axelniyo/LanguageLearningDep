@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { LogOut, User, Trophy, Flame } from 'lucide-react';
@@ -10,46 +9,15 @@ interface HeaderProps {
 export function Header({ openAuthModal }: HeaderProps) {
   const { user, signOut } = useAuth();
 
-  // ✅ Inject Adsterra script on mount
-  useEffect(() => {
-    const scriptConfig = document.createElement('script');
-    scriptConfig.type = 'text/javascript';
-    scriptConfig.innerHTML = `
-      atOptions = {
-        'key' : '3f701c8bade2b07598c11e45c5b19443',
-        'format' : 'iframe',
-        'height' : 300,
-        'width' : 160,
-        'params' : {}
-      };
-    `;
-
-    const scriptLoader = document.createElement('script');
-    scriptLoader.src = '//www.highperformanceformat.com/3f701c8bade2b07598c11e45c5b19443/invoke.js';
-    scriptLoader.type = 'text/javascript';
-    scriptLoader.async = true;
-
-    const adContainer = document.getElementById('ad-container');
-    if (adContainer) {
-      adContainer.appendChild(scriptConfig);
-      adContainer.appendChild(scriptLoader);
-    }
-
-    return () => {
-      if (adContainer) adContainer.innerHTML = '';
-    };
-  }, []);
-
   return (
     <header className="bg-white shadow-sm border-b-2 border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center">
             <h1 className="text-2xl font-bold text-green-600">Language Mentor</h1>
-            {/* Ad Container */}
-            <div id="ad-container" />
+          
           </div>
-
+          
           {user ? (
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
