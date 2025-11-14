@@ -14,7 +14,7 @@ const authRouter = require('./routes/auth');
 
 app.use(cors({
   origin: [
-    'https://languagelearningdep-2.onrender.com/', // Render subdomain
+    'https://languagelearningdep-2.onrender.com', // Render subdomain
     'https://wmicsports.com',                      // Your new custom domain
     'http://localhost:5173',                       // Vite default
     'http://localhost:3000'                        // Localhost
