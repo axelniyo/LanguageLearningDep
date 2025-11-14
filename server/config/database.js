@@ -1,42 +1,68 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+// Create the connection pool
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 4000,  // TiDB uses 4000 by default
+  port: parseInt(process.env.DB_PORT) || 3306,
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'language_learning_app',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  ssl: {
-    minVersion: 'TLSv1.2',
-    rejectUnauthorized: true // enforces secure connection
-  },
-  connectTimeout: 10000,
-  acquireTimeout: 60000,
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000,
   multipleStatements: true,
+  timezone: 'local',
+  charset: 'utf8mb4'
 });
 
-// Test connection
-(async () => {
+// Test the connection
+async function testConnection() {
+  let connection;
   try {
-    const conn = await pool.getConnection();
-    console.log("✅ Connected to TiDB database successfully!");
-
-    const [rows] = await conn.query("SELECT 1 AS test");
-    console.log("✅ Test query result:", rows);
-
-    conn.release();
-  } catch (err) {
-    console.error("❌ Database connection failed:", err.message);
-    console.error("Code:", err.code);
-    console.error("SQL State:", err.sqlState);
-    console.log("🔧 Double-check .env credentials and SSL settings.");
+    connection = await pool.getConnection();
+    console.log('✅ Connected to database successfully!');
+    
+    // Test a simple query
+    const [rows] = await connection.query('SELECT 1 as test');
+    console.log('✅ Database connection test successful');
+    
+    // Test if our database is accessible
+    try {
+      const [tables] = await connection.query('SHOW TABLES');
+      console.log(`✅ Successfully connected to database: ${process.env.DB_NAME}`);
+      console.log(`✅ Found ${tables.length} tables`);
+    } catch (dbError) {
+      console.error('❌ Database access error:', dbError.message);
+      console.log('\nTroubleshooting steps:');
+      console.log(`1. Check if database '${process.env.DB_NAME}' exists`);
+      console.log('2. Verify the database user has proper permissions');
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Database connection failed:', error.message);
+    console.error('Error details:', {
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage
+    });
+    console.log('\nTroubleshooting steps:');
+    console.log('1. Make sure XAMPP is running and MariaDB service is started');
+    console.log('2. Verify your database credentials in .env file');
+    return false;
+  } finally {
+    if (connection) await connection.release();
   }
-})();
+}
 
-module.exports = pool;
+// Test the connection when the module loads
+testConnection().catch(console.error);
+
+export { pool };
+export default pool;
