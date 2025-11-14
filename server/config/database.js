@@ -10,6 +10,14 @@ const pool = mysql.createPool({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'language_learning_app',
+  
+  // --- FIX: ADD THIS BLOCK FOR SECURE CLOUD CONNECTIONS ---
+  ssl: {
+    // This is required by your cloud database to prevent insecure connections
+    rejectUnauthorized: true 
+  },
+  // ----------------------------------------------------
+
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -53,8 +61,8 @@ async function testConnection() {
       sqlMessage: error.sqlMessage
     });
     console.log('\nTroubleshooting steps:');
-    console.log('1. Make sure XAMPP is running and MariaDB service is started');
-    console.log('2. Verify your database credentials in .env file');
+    console.log('1. Verify your database credentials in your Render Environment Variables');
+    console.log('2. Check your cloud database dashboard (e.g., PlanetScale) for any alerts.');
     return false;
   } finally {
     if (connection) await connection.release();
