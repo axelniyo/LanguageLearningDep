@@ -1,5 +1,5 @@
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
+const mysql = require('mysql2/promise');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -11,12 +11,10 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'language_learning_app',
   
-  // --- FIX: ADD THIS BLOCK FOR SECURE CLOUD CONNECTIONS ---
+  // The SSL fix for your cloud database
   ssl: {
-    // This is required by your cloud database to prevent insecure connections
     rejectUnauthorized: true 
   },
-  // ----------------------------------------------------
 
   waitForConnections: true,
   connectionLimit: 10,
@@ -46,9 +44,6 @@ async function testConnection() {
       console.log(`✅ Found ${tables.length} tables`);
     } catch (dbError) {
       console.error('❌ Database access error:', dbError.message);
-      console.log('\nTroubleshooting steps:');
-      console.log(`1. Check if database '${process.env.DB_NAME}' exists`);
-      console.log('2. Verify the database user has proper permissions');
     }
     
     return true;
@@ -60,9 +55,6 @@ async function testConnection() {
       sqlState: error.sqlState,
       sqlMessage: error.sqlMessage
     });
-    console.log('\nTroubleshooting steps:');
-    console.log('1. Verify your database credentials in your Render Environment Variables');
-    console.log('2. Check your cloud database dashboard (e.g., PlanetScale) for any alerts.');
     return false;
   } finally {
     if (connection) await connection.release();
@@ -72,5 +64,5 @@ async function testConnection() {
 // Test the connection when the module loads
 testConnection().catch(console.error);
 
-export { pool };
-export default pool;
+// --- FIX: Use CommonJS export ---
+module.exports = pool;
